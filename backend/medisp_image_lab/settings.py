@@ -14,6 +14,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework.authtoken",
     "image_api",
 ]
 
@@ -64,8 +65,11 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Disable default auth classes to keep this endpoint CSRF-free for workshop simplicity.
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [],
-    "DEFAULT_PERMISSION_CLASSES": [],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
+    ],
 }

@@ -1,28 +1,47 @@
 # medisp-image-lab
 
-Day 2 demo: a minimal end-to-end image processing app with a React frontend and Django REST backend.
+Day 3 training app: a beginner-friendly Django + React project that combines image processing with authentication and personalized user settings.
 
-## What this demo does
+## What this app does
 
-- Upload an image from the browser
-- Show the original image in the left panel
-- Send the file to `POST /api/process-image/`
-- Convert image to grayscale in the backend (Pillow)
-- Return JSON with base64 image
-- Show processed image in the right panel
+- Login with username/password
+- Keep authenticated state using DRF token auth
+- Open **User Settings** from the top-right area
+- View user info (`username`, `email`, `last_login`)
+- Edit `first_name` / `last_name`
+- Toggle theme and font size from the main page (auto-saved)
+- Upload an image and convert it to grayscale via backend API
+- Display original and processed images side-by-side
 
-Response format from backend:
+## Tech stack
+
+- Backend: Django, Django REST Framework, DRF Token Auth, Pillow
+- Frontend: React (CRA), local CSS styling (no UI library)
+- Database: SQLite (default)
+
+## Project structure
+
+- `backend/`: Django + DRF API
+- `frontend/`: React app
+- `Day_3.md`: detailed lesson notes for the training session
+
+## API endpoints
+
+- `POST /api/login/` -> returns auth token
+- `POST /api/logout/` -> invalidates current token
+- `GET /api/me/` -> current authenticated user
+- `PATCH /api/me/` -> updates only `first_name` and `last_name`
+- `GET /api/profile/` -> current user's profile preferences
+- `PATCH /api/profile/` -> updates `theme` and `font_size`
+- `POST /api/process-image/` -> grayscale conversion
+
+Example process-image response:
 
 ```json
 {
   "image": "<base64_string>"
 }
 ```
-
-## Project structure
-
-- `backend/`: Django + DRF API
-- `frontend/`: React app (single `App.js` for Day 2 clarity)
 
 ## One-time setup
 
@@ -34,18 +53,19 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 python manage.py migrate
+python manage.py createsuperuser
 ```
 
 ### Frontend
 
-Open a second terminal:
+In a second terminal:
 
 ```bash
 cd frontend
 npm install
 ```
 
-## Run commands (seminar flow)
+## Run the app
 
 ### 1) Start backend
 
@@ -64,19 +84,22 @@ cd frontend
 npm start
 ```
 
-## Open in browser
+## Browser flow
 
 - Frontend: `http://localhost:3000`
-- Backend API via frontend proxy: `/api/process-image/`
+- API uses CRA proxy to backend (`http://127.0.0.1:8000`)
 
-## Expected behavior
+### Expected Day 3 flow
 
-1. Select an image file.
-2. The original image appears in the left panel.
-3. Click **Process Image**.
-4. Button shows loading state (`Processing...`).
-5. Grayscale result appears in the right panel.
+1. Login with your user.
+2. Use top-right icon toggles to change theme/font size (auto-save).
+3. Open **User Settings**.
+4. If a name exists, click it to edit first/last name.
+5. Upload image and click **Process Image**.
+6. Confirm grayscale output appears in the processed panel.
 
-Notes:
-- The **Process Image** button is disabled until a file is selected.
-- CRA proxy is configured, so no CORS setup is required for this demo.
+## Notes
+
+- User updates are scoped to `request.user` for safety.
+- `username`, `email`, and `last_login` are read-only from frontend.
+- No CORS setup is needed for local demo because CRA proxy is configured.

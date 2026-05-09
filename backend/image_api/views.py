@@ -2,9 +2,16 @@ import base64
 from io import BytesIO
 
 from PIL import Image, UnidentifiedImageError
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from django.contrib.auth import authenticate
+from django.utils import timezone
 from rest_framework import status
+from rest_framework.authtoken.models import Token
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+
+from .models import UserProfile
+from .serializers import CurrentUserSerializer, CurrentUserUpdateSerializer, UserProfileSerializer
 
 
 @api_view(["POST"])
@@ -30,3 +37,59 @@ def process_image(request):
     encoded_image = base64.b64encode(output_buffer.getvalue()).decode("utf-8")
 
     return Response({"image": encoded_image}, status=status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+@authentication_classes([])
+@permission_classes([AllowAny])
+def login_view(request):
+    username = request.data.get("username", "").strip()
+    password = request.data.get("password", "")
+
+    user = authenticate(username=username, password=password)
+    if user is None:
+        return Response(
+            {"error": "Invalid username or password."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    token, _ = Token.objects.get_or_create(user=user)
+    user.last_login = timezone.now()
+    user.save(update_fields=["last_login"])
+    return Response({"token": token.key}, status=status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def logout_view(request):
+    request.auth.delete()
+    return Response({"detail": "Logged out successfully."}, status=status.HTTP_200_OK)
+
+
+@api_view(["GET", "PATCH"])
+@permission_classes([IsAuthenticated])
+def me_view(request):
+    if request.method == "GET":
+        serializer = CurrentUserSerializer(request.user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    serializer = CurrentUserUpdateSerializer(request.user, data=request.data, partial=True)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    response_serializer = CurrentUserSerializer(request.user)
+    return Response(response_serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(["GET", "PATCH"])
+@permission_classes([IsAuthenticated])
+def profile_view(request):
+    profile, _ = UserProfile.objects.get_or_create(user=request.user)
+
+    if request.method == "GET":
+        serializer = UserProfileSerializer(profile)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    serializer = UserProfileSerializer(profile, data=request.data, partial=True)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(serializer.data, status=status.HTTP_200_OK)

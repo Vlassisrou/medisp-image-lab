@@ -1,7 +1,11 @@
 from django.urls import path
 
-from .views import process_image
+from .views import login_view, logout_view, me_view, process_image, profile_view
 
 urlpatterns = [
     path("process-image/", process_image, name="process_image"),
+    path("login/", login_view, name="login"),
+    path("logout/", logout_view, name="logout"),
+    path("me/", me_view, name="me"),
+    path("profile/", profile_view, name="profile"),
 ]
