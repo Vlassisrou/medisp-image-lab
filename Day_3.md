@@ -8,7 +8,7 @@ By the end of Day 3, students will understand how to:
 - log in to a web app
 - fetch authenticated user and profile data through protected API calls
 - open a dedicated user settings component from the main page
-- show first/last name and edit on click when needed
+- show first/last name and allow editing
 - store UI preferences in a backend profile model
 - auto-save theme/font-size preferences from the main page
 - reload persisted user state when the app starts
