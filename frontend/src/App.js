@@ -203,6 +203,15 @@ function App() {
     updateProfilePreference({ font_size: order[nextIndex] });
   };
 
+  const handleCloseSettings = () => {
+    setIsSettingsOpen(false);
+    setIsEditingName(false);
+    setNameDraft({
+      first_name: user?.first_name || "",
+      last_name: user?.last_name || "",
+    });
+  };
+
   const handleFileChange = (event) => {
     const file = event.target.files?.[0];
     if (!file) {
@@ -354,7 +363,7 @@ function App() {
       </div>
 
       {isSettingsOpen && user && (
-        <div className="modal-overlay" onClick={() => setIsSettingsOpen(false)}>
+        <div className="modal-overlay" onClick={handleCloseSettings}>
           <section className="settings-modal" onClick={(event) => event.stopPropagation()}>
             <h2>User Settings</h2>
 
@@ -366,7 +375,8 @@ function App() {
             <div className="name-block">
               {!isEditingName ? (
                 <button type="button" className="name-display" onClick={() => setIsEditingName(true)}>
-                  {displayName || "Add first and last name"}
+                  <span>{displayName || "Add first and last name"}</span>
+                  <span className="name-display-icon" aria-hidden="true">✏️</span>
                 </button>
               ) : (
                 <div className="stack-form">
@@ -399,7 +409,7 @@ function App() {
             </div>
 
             <div className="actions-row">
-              <button type="button" onClick={() => setIsSettingsOpen(false)}>Close</button>
+              <button type="button" onClick={handleCloseSettings}>Close</button>
             </div>
           </section>
         </div>

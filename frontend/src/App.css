@@ -200,8 +200,17 @@ select {
 
 .name-display {
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
   text-align: left;
   font-weight: 600;
+}
+
+.name-display-icon {
+  flex-shrink: 0;
+  opacity: 0.75;
 }
 
 .actions-row {
