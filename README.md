@@ -23,10 +23,12 @@ Day 3 training app: a beginner-friendly Django + React project that combines ima
 
 - `backend/`: Django + DRF API
 - `frontend/`: React app
-- `Day_3.md`: detailed lesson notes for the training session
+- `Day_3.md`: detailed lesson notes for Day 3
+- `Day_4.md`: backend testing and Dockerizing lesson notes
 
 ## API endpoints
 
+- `GET /api/health/` -> simple health check (`{"status": "ok"}`)
 - `POST /api/login/` -> returns auth token
 - `POST /api/logout/` -> invalidates current token
 - `GET /api/me/` -> current authenticated user
@@ -65,7 +67,7 @@ cd frontend
 npm install
 ```
 
-## Run the app
+## Run the app locally
 
 ### 1) Start backend
 
@@ -84,12 +86,30 @@ cd frontend
 npm start
 ```
 
-## Browser flow
+## Run with Docker Compose (Day 4)
+
+```bash
+docker compose up --build
+```
 
 - Frontend: `http://localhost:3000`
-- API uses CRA proxy to backend (`http://127.0.0.1:8000`)
+- Backend API: `http://localhost:8000`
 
-### Expected Day 3 flow
+Stop services:
+
+```bash
+docker compose down
+```
+
+## Day 4 focus: Testing + Docker
+
+See [Day_4.md](./Day_4.md) for:
+
+- backend API tests with DRF `APITestCase`
+- coverage commands
+- Docker development setup and debugging commands
+
+## Browser flow (Day 3)
 
 1. Login with your user.
 2. Use top-right icon toggles to change theme/font size (auto-save).
@@ -102,4 +122,4 @@ npm start
 
 - User updates are scoped to `request.user` for safety.
 - `username`, `email`, and `last_login` are read-only from frontend.
-- No CORS setup is needed for local demo because CRA proxy is configured.
+- Local frontend API proxy target can be configured with `PROXY_TARGET`.
