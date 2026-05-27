@@ -1,6 +1,6 @@
 __pycache__/
 *.py[cod]
 *.sqlite3
+.coverage
 media/
 staticfiles/
-

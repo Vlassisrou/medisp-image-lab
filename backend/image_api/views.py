@@ -14,6 +14,13 @@ from .models import UserProfile
 from .serializers import CurrentUserSerializer, CurrentUserUpdateSerializer, UserProfileSerializer
 
 
+@api_view(["GET"])
+@authentication_classes([])
+@permission_classes([AllowAny])
+def health_view(request):
+    return Response({"status": "ok"}, status=status.HTTP_200_OK)
+
+
 @api_view(["POST"])
 def process_image(request):
     """Receive an uploaded image, convert it to grayscale, and return base64 JSON."""
