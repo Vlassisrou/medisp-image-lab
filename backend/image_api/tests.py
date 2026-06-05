@@ -6,7 +6,7 @@ from rest_framework.test import APIClient, APITestCase
 from .models import UserProfile
 
 
-class Day3AuthAndUserApiTests(APITestCase):
+class TestAuthAndUserApi(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user(
             username="demo",
@@ -104,7 +104,7 @@ class Day3AuthAndUserApiTests(APITestCase):
         self.assertEqual(self.user.last_name, "User2")
 
 
-class Day4HealthCheckTests(APITestCase):
+class TestHealthCheck(APITestCase):
     def test_health_check_returns_ok(self):
         response = self.client.get("/api/health/")
 
@@ -112,9 +112,11 @@ class Day4HealthCheckTests(APITestCase):
         self.assertEqual(response.data, {"status": "ok"})
 
 
-class Day3TokenFlowTests(APITestCase):
+class TestTokenFlow(APITestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username="token-user", password="tokenpass123")
+        self.user = User.objects.create_user(
+            username="token-user", password="tokenpass123"
+        )
 
     def test_login_token_can_access_protected_endpoints(self):
         login_response = self.client.post(
