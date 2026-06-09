@@ -1,6 +1,6 @@
-# Day 1 – Environment Setup & First Run 🚀
+# Day 1 – Environment Setup & First Run 🚀 me ta xilia 
 
-Welcome to **Medisp Image Lab**.  
+Welcome to **Medisp Image Lab**.  HELLOOOOOOOO
 Today, we will go from **zero → running the backend and frontend applications**.
 
 ---
