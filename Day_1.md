@@ -5,11 +5,11 @@ Today, we will go from **zero → running the backend and frontend applications*
 
 ---
 
-## 🎯 Goal of Day 1
+## 🎯 Goal of Day 1 my fist day
 
 By the end of this session, you should be able to:
 
-- Set up development tools and the environment  
+- Set up development tools and the environment if you want
 - Clone a repository  
 - Set up a Python environment  
 - Run a Django backend  
@@ -24,7 +24,7 @@ Visual Studio Code is a lightweight and powerful code editor widely used for web
 
 ---
 
-## Install Visual Studio Code
+## Install Visual Studio Code come on boy you can do it
 
 You can install Visual Studio Code directly from the Ubuntu Software application by searching for:
 
