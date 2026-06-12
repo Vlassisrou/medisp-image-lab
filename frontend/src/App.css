@@ -6,7 +6,9 @@
   --muted: #5d6977;
   --border: #d3dde7;
   --shadow: 0 8px 30px rgba(21, 34, 50, 0.08);
-  --accent: #0f766e;
+  --accent: #2cbe8e;
+  --mycolor: #6760a5;
+
 }
 
 * {
@@ -25,15 +27,6 @@ select {
   font: inherit;
 }
 
-button {
-  border: 1px solid var(--border);
-  background: var(--panel);
-  color: var(--text);
-  border-radius: 10px;
-  padding: 8px 12px;
-  cursor: pointer;
-}
-
 button:hover {
   border-color: var(--accent);
 }
@@ -45,15 +38,15 @@ button:disabled {
 
 input,
 select {
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 8px 10px;
+  border: 2px solid var(--accent);
+  border-radius: 15px;
+  padding: 10px 10px;
   background: var(--panel);
   color: var(--text);
 }
 
 .login-page {
-  min-height: 100vh;
+  min-height: 100vh;   
   display: grid;
   place-items: center;
   padding: 20px;
@@ -61,14 +54,48 @@ select {
 
 .login-card {
   width: 100%;
-  max-width: 500px;
-  background: var(--panel);
+  max-width: 600px;      /* εύρος πλαισίου login */
+  background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 18px;
   box-shadow: var(--shadow);
-  padding: 24px;
+  padding: 24px;     /* χώρος μέσα στα πλαίσια */
+  text-align: center;
+
 }
 
+.theme-dark .login-card {
+    background-color: var(--panel);
+    color: var(--text);
+}
+
+/* Όταν το θέμα είναι gray, κάνε το login panel γκρι */
+.theme-gray .login-card {
+    background-color: var(--panel);
+    color: var(--text);
+}
+
+/* Καθαρά input πεδία στα σκούρα θέματα */
+.theme-dark .login-card input,
+.theme-gray .login-card input {
+    background-color: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.login-card h1 {
+    font-size: 2.5rem; /* Από ~2rem που είναι τώρα, το μεγαλώνουμε αρκετά */
+    font-weight: 800;   /* Κάνει τα γράμματα ακόμα πιο παχιά (bold) */
+}
+
+/* Ξεχωριστό στυλ κουμπί Login */
+.login-card button[type="submit"] {
+    background-color: #6366f1;
+    color: var(--panel);         /* Άσπρα γράμματα*/
+    border: none;              /* Αφαιρεί το γύρω-γύρω περίγραμμα */
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); /* Μια όμορφη λάμψη στο χρώμα του κουμπιού */
+    transition: background-color 0.2s ease;
+}
 .app-shell {
   min-height: 100vh;
   color: var(--text);
@@ -78,7 +105,7 @@ select {
   --bg: #0b121a;
   --panel: #111b26;
   --card: #132130;
-  --text: #ecf2f8;
+  --text: #ffffff;
   --muted: #9cb0c2;
   --border: #2a3c4f;
   --shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
@@ -90,10 +117,38 @@ select {
   background: radial-gradient(circle at top right, #c7e9e6 0%, #e8eff3 45%, #f2f5f7 100%);
 }
 
+.theme-gray {
+  --bg: #555555;       /* Γκρι φόντο */
+  --panel: #444444;    /* Λίγο πιο σκούρο γκρι για τα πάνελ */
+  --card: #4a4a4a;     /* Για τις κάρτες */
+  --text: #ffffff;     /* Λευκά γράμματα */
+  --muted: #ffffff;    /* Γκριζωπά γράμματα για δευτερεύοντα κείμενα */
+  --border: #666666;   /* Χρώμα για τα περιγράμματα */
+  background: #555555;
+}
+/* Ξεχωριστό στυλ ΜΟΝΟ για το μεγάλο κουμπί της σύνδεσης (Login) */
+.login-card button[type="submit"] {
+    background-color: #6366f1; /* Βάλε όποιο Hex χρώμα θέλεις (π.χ. αυτό είναι ένα ωραίο Indigo/Μωβ) */
+    color: var (var(--text));            /* Άσπρα γράμματα πάντα */
+    border: none;              /* Αφαιρεί το γύρω-γύρω περίγραμμα */
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); /* Μια όμορφη λάμψη στο χρώμα του κουμπιού */
+    transition: background-color 0.2s ease;
+}
+
+button {
+  border: 10px solid var(--accent);
+  background: var(--accent);
+  color: var(--panel);
+  font-weight: bold;
+  border-radius: 20px;
+  padding: 10px 12px;
+  cursor: pointer;
+}
+
 .app-inner {
-  max-width: 1120px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 30px;
 }
 
 .topbar {
@@ -104,13 +159,13 @@ select {
   flex-wrap: wrap;
 }
 
-.topbar h1 {
+.topbar h1 { 
   margin: 0;
 }
 
 .topbar-actions {
   display: flex;
-  gap: 8px;
+  gap: 15px;
   align-items: center;
   flex-wrap: wrap;
 }
@@ -133,7 +188,7 @@ select {
 .upload-bar {
   margin: 16px 0;
   display: flex;
-  gap: 10px;
+  gap: 20px;
   flex-wrap: wrap;
   align-items: center;
 }
@@ -141,27 +196,29 @@ select {
 .image-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 16px;
+  gap: 10px;
 }
 
 .image-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 14px;
+  background: var(--panel);
+  border: 1px solid var(--mycolor);
+  border-radius: 15px;
+  padding: 15px;
   box-shadow: var(--shadow);
+  text-align: center;
 }
 
 .image-card h2 {
   margin-top: 0;
+  text-align: center;
 }
 
 .image-preview {
   width: 100%;
-  max-height: 420px;
+  max-height: 500px;
   object-fit: contain;
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  border: 0px solid var(--border);
+  border-radius: 0cm;
   background: #ffffff;
 }
 
@@ -186,12 +243,12 @@ select {
 
 .stack-form {
   display: grid;
-  gap: 10px;
+  gap: 60px;
 }
 
 .stack-form label {
   display: grid;
-  gap: 6px;
+  gap: 60px;
 }
 
 .name-block {
@@ -222,4 +279,51 @@ select {
 
 .error-text {
   color: #c5163c;
+}
+
+
+/* Διόρθωση για να μην βγαίνουν τα γράμματα εκτός στο κουμπί AAA */
+.topbar-actions button, 
+.icon-btn {
+    padding: 8px 16px; /* Αυξάνουμε το δεξιά-αριστερά padding για να απλώσει το κείμενο */
+    min-width: 50px;              /* Ορίζουμε ένα ελάχιστο πλάτος ώστε να μην συμπιέζεται */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;          /* Απαγορεύει στο κείμενο να "σπάσει" σε δύο γραμμές */
+}
+
+
+/* Container για να δώσει χώρο κάτω από την εικόνα */
+.download-container {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Το στυλ του πράσινου κουμπιού Download */
+.download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #10b981; /* Όμορφο πράσινο */
+    color: #ffffff;
+    padding: 10px 24px;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;     /* Αφαιρεί την υπογράμμιση */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
+    cursor: pointer;
+}
+
+/* Περιορισμός για να μην ξεχειλίζουν οι εικόνες από τα πλαίσια */
+.image-card img,
+.preview-image {
+    width: 100%;           /* Απλώνεται μέχρι εκεί που τελειώνει το πλαίσιο */
+    max-width: 100%;       /* Δεν το ξεπερνάει ποτέ */
+    height: auto;          /* Διατηρεί τη σωστή αναλογία ύψους/πλάτους για να μην παραμορφώνεται */
+    border-radius: 1px;    /* Προαιρετικά: στρογγυλεύει ελαφρώς τις γωνίες της ίδιας της εικόνας */
+    display: block;
+    margin: 0 auto;        /* Κεντράρει την εικόνα αν είναι πιο μικρή */
 }

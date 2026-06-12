@@ -192,9 +192,16 @@ function App() {
   };
 
   const handleThemeToggle = () => {
-    const nextTheme = profile.theme === "dark" ? "light" : "dark";
-    updateProfilePreference({ theme: nextTheme });
-  };
+    let nextTheme = "light";
+    if (profile.theme === "light"){
+      nextTheme = "dark";
+    } else if (profile.theme === "dark") {
+      nextTheme = "gray";
+    } else if (profile.theme === "gray") {
+      nextTheme = "light";
+    }
+    setProfile({ ...profile, theme: nextTheme });
+};
 
   const handleFontSizeToggle = () => {
     const order = ["small", "medium", "large"];
@@ -263,10 +270,21 @@ function App() {
 
   if (!token) {
     return (
-      <main className="login-page">
+      <main className={`login-page ${profile.theme === "dark" ? "theme-dark" : profile.theme === "gray" ? "theme-gray" : "theme-light"}`}>
         <section className="login-card">
-          <h1>Day 3 Login</h1>
-          <p>Sign in to access your personalized image lab settings.</p>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
+            <button 
+              type="button" 
+              className="icon-btn" 
+              onClick={handleThemeToggle}
+              title={`Theme: ${profile.theme}`}
+              style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer' }}
+            >
+              {profile.theme === "light" ? "☀️" : profile.theme === "dark" ? "🌙" : "☁️"}
+            </button>
+          </div>
+          <h1 style={{ textAlign: 'center' }}>Image processing login</h1>
+          <p style={{ textAlign: 'center' }}>Sign in to access your personalized image lab settings</p>
           <form onSubmit={handleLogin} className="stack-form">
             <input
               type="text"
@@ -296,12 +314,12 @@ function App() {
 
   return (
     <main
-      className={`app-shell ${profile.theme === "dark" ? "theme-dark" : "theme-light"}`}
-      style={{ fontSize: fontScale }}
+    className={`app-shell ${profile.theme === "dark" ? "theme-dark" : profile.theme === "gray" ? "theme-gray" : "theme-light"}`}
+    style={{ fontSize: fontScale }}
     >
       <div className="app-inner">
         <header className="topbar">
-          <h1>Day 3 Image Processing Lab</h1>
+          <h1>Grayscale Converter </h1>
           <div className="topbar-actions">
             <button
               type="button"
@@ -310,7 +328,7 @@ function App() {
               disabled={isSavingProfile}
               title={`Theme: ${profile.theme}`}
             >
-              {profile.theme === "dark" ? "🌙" : "☀️"}
+              {profile.theme === "light" ? "☀️" : profile.theme === "dark" ? "🌙" : "☁️"}
             </button>
             <button
               type="button"
@@ -330,7 +348,7 @@ function App() {
 
         {isAuthLoading && <p className="status-text">Loading your profile...</p>}
         {isSavingProfile && <p className="status-text">Saving preferences...</p>}
-        <p className="lead-text">Upload an image and convert it to grayscale using the Django API.</p>
+        <p className="lead-text">Upload your color image and instantly convert it to grayscale.</p>
 
         <section className="upload-bar">
           <input type="file" accept="image/*" onChange={handleFileChange} />
@@ -351,14 +369,25 @@ function App() {
             )}
           </article>
 
-          <article className="image-card">
+        <article className="image-card">
             <h2>Processed Image</h2>
             {processedImageUrl ? (
-              <img src={processedImageUrl} alt="Processed grayscale output" className="image-preview" />
+                <>
+                    <img src={processedImageUrl} alt="Processed grayscale" className="preview-image" />
+                    <div className="download-container">
+                        <a 
+                            href={processedImageUrl} 
+                            download="processed-image.png" 
+                            className="download-btn" 
+                        >
+                            Download Image
+                        </a>
+                    </div>
+                </>
             ) : (
-              <p className="muted-text">Processed image will appear here.</p>
+                <p className="muted-text">Processed image will appear here.</p>
             )}
-          </article>
+        </article>
         </section>
       </div>
 
